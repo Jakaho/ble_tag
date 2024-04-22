@@ -72,6 +72,7 @@
 
 #include "lis2ds12.h"
 #include "tag.h"
+//#include "classifier.h"
 
 #define BLE_SEER_TAG_SERVICE_UUID_TYPE  BLE_UUID_TYPE_VENDOR_BEGIN
 
@@ -938,6 +939,7 @@ int main(void)
         update_acc();
         update_step();
         update_lis();
+        process_classifier();
     }
 }
 
