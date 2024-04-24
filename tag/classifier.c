@@ -1,6 +1,7 @@
 #include "classifier.h"
 #include "LIS2DS12.h"
 #include <string.h>
+#include "accelerometer_data.h"
 
 
 DecisionNode decision_nodes[] = {
@@ -131,6 +132,8 @@ void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z
         z_data[j] = (float)data[i + 2];
     }
 }
+
+
 
 
 float calculate_mean(float* data, size_t length) {
@@ -321,14 +324,13 @@ AccFeatures calculate_features(float* x_data, float* y_data, float* z_data, size
 
 
 
-void process_classifier(void) {
-    uint8_t sensor_data[3 * DATA_LENGTH];  // Assuming this is correctly sized for your sensor data input
-
+int process_classifier(const uint8_t* data) {
+    int decision = -1;
     // Ensure arrays are the correct size
     float x_data[DATA_LENGTH], y_data[DATA_LENGTH], z_data[DATA_LENGTH];
 
     // Call separate_axes to populate x_data, y_data, and z_data from sensor_data
-    separate_axes(x_data, y_data, z_data, sensor_data);
+    separate_axes(x_data, y_data, z_data, data);
 
     // Call calculate_features to process the data and store the results
     AccFeatures features = calculate_features(x_data, y_data, z_data, DATA_LENGTH);
@@ -336,7 +338,9 @@ void process_classifier(void) {
     // Continue with classifier logic using the 'features' structure
     // For example, you might log these features, make decisions based on them, etc.
 
-    int decision = evaluate_decision(&features);
+    decision = evaluate_decision(&features);
+
+    return decision;
 
 }
 
@@ -398,6 +402,22 @@ int evaluate_decision(const AccFeatures* features) {
         }
     }
     return -1; // Should not be reached; indicates an error
+}
+
+int classify_movement(const uint8_t* data, uint16_t size) {
+    // Implement classification logic here
+    // Return an integer or enum that represents the classification
+    int classification_result = -1;
+    float x_data[DATA_LENGTH], y_data[DATA_LENGTH], z_data[DATA_LENGTH];
+
+    // Assuming data is already in a simple packed format: [x0, y0, z0, x1, y1, z1, ..., xn, yn, zn]
+    // Call separate_axes to parse and convert the data
+    separate_axes(x_data, y_data, z_data, data);
+
+
+
+
+    return classification_result;
 }
 
 

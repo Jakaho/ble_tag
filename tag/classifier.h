@@ -2,6 +2,7 @@
 #define CLASSIFIER_H
 #define DATA_LENGTH 60  // Define a constant for the length of your arrays
 
+
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -118,6 +119,8 @@ void calculate_dynamic_components(float* dyn_components_x, float* dyn_components
 AccFeatures calculate_features(float* x_data, float* y_data, float* z_data, size_t length);
 float get_feature_value(const AccFeatures* features, FeatureIndex index);
 int evaluate_decision(const AccFeatures* features);
+int process_classifier(const uint8_t* data);
+
 
 
 #endif // CLASSIFIER_H

@@ -65,6 +65,7 @@
 #include "nrf_drv_spi.h"
 #include "nrf_drv_gpiote.h"
 #include "nrf_power.h"
+#include "accelerometer_data.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -72,7 +73,7 @@
 
 #include "lis2ds12.h"
 #include "tag.h"
-//#include "classifier.h"
+#include "classifier.h"
 
 #define BLE_SEER_TAG_SERVICE_UUID_TYPE  BLE_UUID_TYPE_VENDOR_BEGIN
 
@@ -128,6 +129,7 @@ static bool m_lis_update = false;
 static uint16_t m_steps = 0;
 static uint16_t m_last_steps = 0xffff;
 static uint8_t m_avg = 0;
+
 
 static ble_advdata_manuf_data_t manuf_data;
 static uint8_t manufacturing_data_payload[4];
@@ -275,10 +277,9 @@ static void decomp(int16_t x, int16_t y, int16_t z, uint8_t a, uint8_t b, uint8_
 static uint8_t buffer[BUFFER_SIZE * BUFFER_SLOTS];
 static int buffer_slots = 0;
 
-static void update_acc()
-{
+static void update_acc() {
     if (!m_fifo_full || !m_acc_stream) {
-      return;
+        return;
     }
     m_fifo_full = false;
 
@@ -298,6 +299,13 @@ static void update_acc()
         uint16_t out_size;
         uint8_t *comp = (uint8_t*)acc_xyz;
         compress_acc(comp, 10, size, &out_size);
+
+        // Call the classifier function
+        int classification = process_classifier(comp);
+
+        // Handle the classification (optional, depending on your needs)
+        // For example, append it to the data or handle differently based on the result
+
         if (!m_acc_ready) {
             NRF_LOG_INFO("BLE add buffer, slots %d", buffer_slots);
             if (buffer_slots >= BUFFER_SLOTS - 1) {
@@ -305,6 +313,7 @@ static void update_acc()
                 buffer_slots = 0;
                 m_acc_ready = true;
             }
+            // Append classification to the buffer or handle it accordingly
             memcpy(&buffer[BUFFER_SIZE * buffer_slots], comp, BUFFER_SIZE);
             ++buffer_slots;
             return;
@@ -314,7 +323,6 @@ static void update_acc()
         APP_ERROR_CHECK(err_code);
     }
 }
-
 APP_TIMER_DEF(m_timer);
 #define TIMER_INTERVAL APP_TIMER_TICKS(30000L)
 
@@ -911,6 +919,11 @@ static void gpio_init(void)
     nrf_drv_gpiote_in_event_enable(LIS_INT2_PIN, true);
 }
 
+uint8_t* get_buffer_data(size_t* out_size) {
+    *out_size = BUFFER_SIZE;
+    return buffer;
+}
+
 /**@brief Function for application main entry.
  */
 int main(void)
@@ -939,7 +952,7 @@ int main(void)
         update_acc();
         update_step();
         update_lis();
-        process_classifier();
+      
     }
 }
 
