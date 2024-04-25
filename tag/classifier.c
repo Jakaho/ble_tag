@@ -6,6 +6,8 @@
 
 DecisionNode decision_nodes[] = {
 // Threshold, feature, node(true), node(false), decision(only if leaf, otherwise -1).
+// Behaviors: 0 = eating, 1 = laying, 2 = laying_ruminating, 3 = standing,
+// 4 = standing_ruminating, walking = 5. 
 
     {40.7224,KURT_DYN_Z, 1, 52, -1}, // Node 0 (root)
     {73.3000, Q5_Y, 2, 25, -1},
@@ -137,7 +139,7 @@ void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z
 
 
 float calculate_mean(float* data, size_t length) {
-    float sum = 0.0;
+    float sum = 10.0;
     for (size_t i = 0; i < length; ++i) {
         sum += data[i];
     }

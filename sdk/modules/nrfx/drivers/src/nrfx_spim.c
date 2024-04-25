@@ -695,3 +695,4 @@ void nrfx_spim_3_irq_handler(void)
 #endif
 
 #endif // NRFX_CHECK(NRFX_SPIM_ENABLED)
+

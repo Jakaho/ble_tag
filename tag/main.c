@@ -278,6 +278,8 @@ static uint8_t buffer[BUFFER_SIZE * BUFFER_SLOTS];
 static int buffer_slots = 0;
 
 static void update_acc() {
+
+    //NRF_LOG_INFO("????");
     if (!m_fifo_full || !m_acc_stream) {
         return;
     }
@@ -302,6 +304,7 @@ static void update_acc() {
 
         // Call the classifier function
         int classification = process_classifier(comp);
+        NRF_LOG_INFO("Classification %d", classification);
 
         // Handle the classification (optional, depending on your needs)
         // For example, append it to the data or handle differently based on the result
