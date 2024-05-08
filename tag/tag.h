@@ -58,6 +58,7 @@ typedef enum
     BLE_SEER_TAG_EVT_STEP_MINTHS,
     BLE_SEER_TAG_EVT_STEP_DEBOUNCE,
     BLE_SEER_TAG_EVT_STEP_DELTA,
+    //BLE_SEER_TAG_EVT_CLASSIFICATION,
     BLE_SEER_TAG_EVT_ODR_AVG,
     BLE_SEER_TAG_EVT_START_ACC_STREAM,
     BLE_SEER_TAG_EVT_STOP_ACC_STREAM,
@@ -138,6 +139,7 @@ struct ble_seer_tag_s
     ble_gatts_char_handles_t        step_debounce_char;
     ble_gatts_char_handles_t        step_delta_char;
     ble_gatts_char_handles_t        step_counter_char;
+    //ble_gatts_char_handles_t        classification_char;
     ble_gatts_char_handles_t        fs_char;
     ble_gatts_char_handles_t        tx_power_char;
     ble_gatts_char_handles_t        coded_char;

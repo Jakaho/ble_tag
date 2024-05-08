@@ -105,7 +105,7 @@ typedef enum {
 
 
 // Function prototypes
-void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z_data[DATA_LENGTH], uint8_t data[3 * DATA_LENGTH]);
+void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z_data[DATA_LENGTH], int16_t data[3 * DATA_LENGTH]);
 float calculate_mean(float* data, size_t length);
 float calculate_max(float* data, size_t length);
 float calculate_min(float* data, size_t length);
@@ -119,7 +119,7 @@ void calculate_dynamic_components(float* dyn_components_x, float* dyn_components
 AccFeatures calculate_features(float* x_data, float* y_data, float* z_data, size_t length);
 float get_feature_value(const AccFeatures* features, FeatureIndex index);
 int evaluate_decision(const AccFeatures* features);
-int process_classifier(const uint8_t* data);
+int process_classifier(const int16_t* data);
 
 
 

@@ -19,6 +19,7 @@
 #define BLE_UUID_STEP_DELTA_CHARACTERISTIC 0x000A
 #define BLE_UUID_TX_POWER_CHARACTERISTIC 0x000B
 #define BLE_UUID_CODED_CHARACTERISTIC 0x000C
+#define BLE_UUID_CLASSIFICATION_CHARACTERISTIC 0x000D
 
 #define BLE_SEER_BASE_UUID  {{ 0x67, 0x0c, 0xd7, 0x78, 0xca, 0xbf, 0x7e, 0xaf, 0x97, 0x43, 0x34, 0x83, 0x00, 0x00, 0x00, 0x00   }}
 
@@ -29,6 +30,9 @@
  */
 static void on_connect(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
 {
+
+     NRF_LOG_INFO("Handling BLE_GAP_EVT_CONNECTED");
+
     ret_code_t                 err_code;
     ble_seer_tag_evt_t         evt;
     ble_gatts_value_t          gatts_val;
@@ -86,6 +90,9 @@ static void on_connect(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
             p_client->last_step = 0xffff;
         }
     }
+
+    NRF_LOG_INFO("CCCD Status: Notify %s", (p_client->sensor_data_notify ? "Enabled" : "Disabled"));
+
 }
 
 
@@ -93,6 +100,9 @@ static void on_connect(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
  */
 static void on_write(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
 {
+      NRF_LOG_INFO("Entered on_write");
+
+
     ret_code_t                    err_code;
     ble_seer_tag_evt_t            evt;
     ble_seer_tag_client_context_t * p_client;
@@ -118,9 +128,18 @@ static void on_write(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
     evt.params.data.p_data = p_evt_write->data;
     evt.params.data.length = p_evt_write->len;
 
+
+       NRF_LOG_INFO("Handling BLE_GATTS_EVT_WRITE, Handle: %d, Data Length: %d", p_evt_write->handle, p_evt_write->len);
+    
+       NRF_LOG_HEXDUMP_INFO(p_evt_write->data, p_evt_write->len);
+      if (p_evt_write->handle == p_seer_tag->sensor_read_char.cccd_handle && p_evt_write->len == 2) {
+          NRF_LOG_INFO("Sensor Read CCCD Write: %s", (ble_srv_is_notification_enabled(p_evt_write->data) ? "Enabled" : "Disabled"));
+      }
     if ((p_evt_write->handle == p_seer_tag->sensor_read_char.cccd_handle) &&
         (p_evt_write->len == 2))
     {
+                NRF_LOG_INFO("Write to Sensor Read CCCD: %s", (ble_srv_is_notification_enabled(p_evt_write->data) ? "Start Stream" : "Stop Stream"));
+
         if (p_client != NULL)
         {
             if (ble_srv_is_notification_enabled(p_evt_write->data))
@@ -198,6 +217,12 @@ static void on_write(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_ble_evt)
         evt.type = BLE_SEER_TAG_EVT_CODED;
         p_seer_tag->data_handler(&evt);
     }
+    /*else if (p_evt_write->handle == p_seer_tag->classification_char.value_handle){
+        evt.type = BLE_SEER_TAG_EVT_CLASSIFICATION;
+        p_seer_tag->data_handler(&evt);
+
+        
+    }*/
     else
     {
         // Do Nothing. This event is not relevant for this service.
@@ -236,31 +261,46 @@ static void on_hvx_tx_complete(ble_seer_tag_t * p_seer_tag, ble_evt_t const * p_
 }
 
 
-void ble_seer_tag_on_ble_evt(ble_evt_t const * p_ble_evt, void * p_context)
-{
-    if ((p_context == NULL) || (p_ble_evt == NULL))
-    {
-        return;
-    }
-
-    ble_seer_tag_t * p_seer_tag = (ble_seer_tag_t *)p_context;
-
-    switch (p_ble_evt->header.evt_id)
-    {
+void ble_seer_tag_on_ble_evt(ble_evt_t const * p_ble_evt, void * p_context) {
+    NRF_LOG_INFO("Received BLE Event ID: %d", p_ble_evt->header.evt_id);
+    switch (p_ble_evt->header.evt_id) {
         case BLE_GAP_EVT_CONNECTED:
-            on_connect(p_seer_tag, p_ble_evt);
+            on_connect((ble_seer_tag_t*)p_context, p_ble_evt);
             break;
-
+        case BLE_GAP_EVT_DISCONNECTED:
+           NRF_LOG_INFO("Disconnect");
+           // on_disconnect((ble_seer_tag_t*)p_context, p_ble_evt);
+            break;
+        case BLE_GAP_EVT_CONN_PARAM_UPDATE:
+            NRF_LOG_INFO("Connection Parameters Updated");
+            break;
+        case BLE_GAP_EVT_CONN_PARAM_UPDATE_REQUEST:
+            NRF_LOG_INFO("Connection Parameter Update Request");
+            // Respond to this request here, typically by accepting the parameters proposed by the central
+            break;
+        case BLE_GAP_EVT_SEC_PARAMS_REQUEST:
+            NRF_LOG_INFO("Security Parameters Request");
+            // Handle security parameter requests, typically by accepting them or configuring security parameters
+            break;
         case BLE_GATTS_EVT_WRITE:
-            on_write(p_seer_tag, p_ble_evt);
+            on_write((ble_seer_tag_t*)p_context, p_ble_evt);
             break;
-
         case BLE_GATTS_EVT_HVN_TX_COMPLETE:
-            on_hvx_tx_complete(p_seer_tag, p_ble_evt);
+            on_hvx_tx_complete((ble_seer_tag_t*)p_context, p_ble_evt);
             break;
-
+        case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
+            {
+                NRF_LOG_INFO("PHY Update Request");
+                ble_gap_evt_phy_update_request_t const * phy_evt = &p_ble_evt->evt.gap_evt.params.phy_update_request;
+                ble_gap_phys_t const phys = {
+                    .rx_phys = phy_evt->peer_preferred_phys.rx_phys,
+                    .tx_phys = phy_evt->peer_preferred_phys.tx_phys,
+                };
+                sd_ble_gap_phy_update(p_ble_evt->evt.gap_evt.conn_handle, &phys);
+            }
+            break;
         default:
-            // No implementation needed.
+            NRF_LOG_INFO("Unhandled BLE Event ID: %d", p_ble_evt->header.evt_id);
             break;
     }
 }
@@ -305,6 +345,18 @@ uint32_t ble_seer_tag_init(ble_seer_tag_t * p_seer_tag, ble_seer_tag_init_t cons
 
     add_char_params.read_access  = SEC_OPEN;
     add_char_params.write_access = SEC_OPEN;
+
+
+
+    /*
+    add_char_params.uuid = BLE_UUID_CLASSIFICATION_CHARACTERISTIC;
+    add_char_params.uuid_type        = p_seer_tag->uuid_type;
+    add_char_params.max_len          = 1; // Adjust as needed
+    add_char_params.init_len         = sizeof(uint8_t);
+    add_char_params.is_var_len       = false; // Set to true if the length can vary
+    add_char_params.char_props.read = 1; // Enable read
+    add_char_params.char_props.write = 1; // Enable write
+    */
 
     add_char_params.uuid = BLE_UUID_STEP_MINTHS_CHARACTERISTIC;
     p_seer_tag->value = 0x10;
@@ -352,6 +404,13 @@ uint32_t ble_seer_tag_init(ble_seer_tag_t * p_seer_tag, ble_seer_tag_init_t cons
 
     add_char_params.uuid  = BLE_UUID_STEP_COUNTER_CHARACTERISTIC;
     return characteristic_add(p_seer_tag->service_handle, &add_char_params, &p_seer_tag->step_counter_char);
+
+    /*
+    add_char_params.uuid  = BLE_UUID_CLASSIFICATION_CHARACTERISTIC;
+    RETURN_IF_ERR(characteristic_add(p_seer_tag->service_handle, &add_char_params, &p_seer_tag->classification_char));
+    */
+
+
 }
 
 static uint32_t data_send(ble_seer_tag_t * p_seer_tag,
@@ -384,6 +443,27 @@ static uint32_t data_send(ble_seer_tag_t * p_seer_tag,
     }
 
     memset(&hvx_params, 0, sizeof(hvx_params));
+
+    /*    switch (evt_type) {
+        case BLE_SEER_TAG_EVT_ACC_STREAM_READY:
+            // Construct BLE packet for acceleration stream data
+            // and set hvx_params accordingly
+            // Example:
+            hvx_params.handle = p_seer_tag->sensor_read_char.value_handle;
+            break;
+        case BLE_SEER_TAG_EVT_CLASSIFICATION:
+            // Construct BLE packet for classification data
+            // and set hvx_params accordingly
+            // Example:
+            hvx_params.handle = p_seer_tag->classification_char.value_handle;
+            break;
+        // Handle other event types as needed
+        default:
+            // Unsupported event type
+            return NRF_ERROR_NOT_SUPPORTED;
+    }
+
+    */
 
     hvx_params.handle = p_seer_tag->sensor_read_char.value_handle;
     hvx_params.p_data = p_data;

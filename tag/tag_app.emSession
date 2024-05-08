@@ -3,12 +3,11 @@
  <Bookmarks/>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
   <BreakpointListItem trigger="" line="120" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" group="Breakpoints" type="Breakpoint" state="4" filename="../sdk/integration/nrfx/legacy/nrf_drv_spi.h" useHWbreakpoint="false"/>
-  <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
- <FrameBufferWindow>
-  <FrameBufferWindow bufferHeight="-1" addressSpace="" addressText="" bufferWidth="-1"/>
- </FrameBufferWindow>
+ <FrameBuffer>
+  <FrameBufferWindow width="0" keepAspectRatio="0" zoomToFitWindow="0" addressSpace="" format="0" height="0" autoEvaluate="0" scaleFactor="1" refreshPeriod="0" name="tag_app_Debug" addressText="" accessByDisplayWidth="0"/>
+ </FrameBuffer>
  <Memory1>
   <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="ble_app_blinky_pca10056_s140_Debug" sizeText="" addressText=""/>
   <MemoryWindow addressSpace="" dataSize="1" autoEvaluate="0" viewMode="0" viewType="4" addressOrder="0" columnsText="" refreshPeriod="0" name="tag_app_Debug" sizeText="" addressText=""/>
@@ -29,10 +28,8 @@
   <ProjectSessionItem path="tag_app"/>
   <ProjectSessionItem path="tag_app;tag_app"/>
   <ProjectSessionItem path="tag_app;tag_app;Application"/>
-  <ProjectSessionItem path="tag_app;tag_app;nRF_BLE"/>
-  <ProjectSessionItem path="tag_app;tag_app;nRF_Drivers"/>
   <ProjectSessionItem path="tag_app;tag_app;nRF_Libraries"/>
-  <ProjectSessionItem path="tag_app;tag_app;nRF_SoftDevice"/>
+  <ProjectSessionItem path="tag_app;tag_app;nRF_Log"/>
  </Project>
  <Register1>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="ble_app_blinky_pca10056_s140_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -69,24 +66,24 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="24" y="896" useTextEdit="1" path="main.c" left="0" selected="1" top="885" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="54" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="tag.h" left="0" top="23" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="5" y="171" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="tag.c" left="0" top="109" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="953" useTextEdit="1" path="main.c" left="0" top="919" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="2" y="157" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="tag.h" left="0" top="113" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="476" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="tag.c" left="0" top="481" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="11" y="490" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/lis2ds12.c" path="../sdk/integration/nrfx/legacy/nrf_drv_spi.h" left="0" top="442" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="50" y="3308" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/tag.h" path="config/sdk_config.h" left="19" top="3279" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="21" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/lis2ds12.c" path="lis2ds12.h" left="0" top="7" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="105" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="lis2ds12.c" left="0" top="56" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="28" y="5246" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/tag.h" path="config/sdk_config.h" left="0" top="5218" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="4" y="21" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/lis2ds12.c" path="lis2ds12.h" left="0" top="16" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="18" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="lis2ds12.c" left="0" top="0" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="39" y="52" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/lis2ds12.h" path="lis2ds12_internal.h" left="0" top="11" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="31" y="97" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/softdevice/s140/headers/ble_gatts.h" left="0" top="59" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="606" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/integration/nrfx/legacy/nrf_drv_gpiote.h" path="../sdk/modules/nrfx/drivers/src/nrfx_gpiote.c" left="0" top="599" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="70" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/modules/nrfx/hal/nrf_gpiote.h" left="0" top="47" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="0" y="425" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/ble/common/ble_advdata.h" path="../sdk/components/ble/common/ble_advdata.c" left="0" top="408" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="287" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/ble/ble_advertising/ble_advertising.c" left="0" top="225" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="287" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/ble/ble_advertising/ble_advertising.c" left="0" top="232" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="33" y="2685" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/ble/ble_advertising/ble_advertising.c" path="../sdk/components/softdevice/s140/headers/ble_gap.h" left="0" top="2646" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="20" y="89" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/softdevice/s140/headers/ble_gap.h" path="../sdk/components/softdevice/s140/headers/ble_ranges.h" left="0" top="57" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="23" y="99" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/tag.c" path="../sdk/components/softdevice/s140/headers/ble_gatt.h" left="0" top="74" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="101" y="250" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/tag.c" path="../sdk/components/softdevice/s140/headers/ble.h" left="68" top="221" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="56" y="184" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/ble/ble_advertising/ble_advertising.h" left="0" top="122" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="56" y="184" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/ble/ble_advertising/ble_advertising.h" left="0" top="131" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="68" y="66" useTextEdit="1" path="../sdk/components/ble/nrf_ble_gatt/nrf_ble_gatt.c" left="35" top="44" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="21" y="194" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/ble/common/ble_advdata.h" left="0" top="178" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="2" y="325" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/ble/common/ble_advdata.h" path="../sdk/components/libraries/util/app_util.h" left="0" top="299" codecName="Default"/>
@@ -97,6 +94,24 @@
   <SessionOpenFile windowGroup="DockEditLeft" x="8" y="72" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/integration/nrfx/legacy/nrf_drv_gpiote.h" path="../sdk/modules/nrfx/drivers/include/nrfx_gpiote.h" left="0" top="43" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="37" y="93" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/tag/main.c" path="../sdk/components/libraries/log/nrf_log_ctrl.h" left="0" top="64" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="8" y="65" useTextEdit="1" openedFrom="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/libraries/log/nrf_log_ctrl.h" path="../sdk/components/libraries/log/src/nrf_log_ctrl_internal.h" left="0" top="27" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="31" y="96" useTextEdit="1" path="/Applications/SEGGER/SEGGER Embedded Studio 8.10d/include/stddef.h" left="0" top="44" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="99" useTextEdit="1" path="../sdk/components/libraries/util/app_error_weak.c" left="0" top="54" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="22" y="316" useTextEdit="1" path="../sdk/modules/nrfx/drivers/src/nrfx_spim.c" left="0" top="287" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="205" useTextEdit="1" path="../sdk/integration/nrfx/legacy/nrf_drv_clock.c" left="0" top="175" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="197" useTextEdit="1" path="../sdk/modules/nrfx/drivers/src/nrfx_clock.c" left="0" top="158" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="209" useTextEdit="1" path="../sdk/components/toolchain/cmsis/include/cmsis_gcc.h" left="0" top="180" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="729" useTextEdit="1" path="../sdk/components/libraries/log/src/nrf_log_frontend.c" left="0" top="704" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="230" useTextEdit="1" path="../sdk/components/libraries/log/nrf_log_backend_interface.h" left="0" top="214" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="115" useTextEdit="1" path="../sdk/components/libraries/log/src/nrf_log_backend_rtt.c" left="0" top="65" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="226" useTextEdit="1" path="../sdk/components/libraries/memobj/nrf_memobj.c" left="0" top="201" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="322" useTextEdit="1" path="../sdk/components/libraries/balloc/nrf_balloc.c" left="0" top="272" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="71" useTextEdit="1" path="../sdk/components/libraries/util/app_util_platform.c" left="0" top="64" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="288" useTextEdit="1" path="../sdk/components/softdevice/s140/headers/nrf_nvic.h" left="0" top="260" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="270" useTextEdit="1" path="../sdk/components/libraries/atomic/nrf_atomic.c" left="0" top="224" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="94" useTextEdit="1" path="../sdk/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" left="0" top="63" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="798" useTextEdit="1" path="../sdk/external/fprintf/nrf_fprintf_format.c" left="0" top="753" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="425" useTextEdit="1" path="classifier.c" left="0" selected="1" top="386" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="13" y="94" useTextEdit="1" path="classifier.h" left="0" top="75" codecName="Default"/>
  </Files>
  <EMStudioWindow activeProject="tag_app" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/Users/hallon/Desktop/projekt/seer/hardware/animal_tag/sw/sdk/components/libraries/fstorage" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

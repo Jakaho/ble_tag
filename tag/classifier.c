@@ -2,6 +2,38 @@
 #include "LIS2DS12.h"
 #include <string.h>
 #include "accelerometer_data.h"
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include "nordic_common.h"
+#include "nrf.h"
+#include "app_error.h"
+#include "ble.h"
+#include "ble_err.h"
+#include "ble_hci.h"
+#include "ble_srv_common.h"
+#include "ble_advertising.h"
+#include "ble_conn_params.h"
+#include "nrf_sdh.h"
+#include "nrf_sdh_ble.h"
+#include "boards.h"
+#include "app_timer.h"
+#include "nrf_ble_gatt.h"
+#include "nrf_ble_qwr.h"
+#include "nrf_pwr_mgmt.h"
+#include "nrf_drv_clock.h"
+#include "nrf_drv_spi.h"
+#include "nrf_drv_gpiote.h"
+#include "nrf_power.h"
+#include "accelerometer_data.h"
+
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
+
+#include "lis2ds12.h"
+#include "tag.h"
+#include "classifier.h"
 
 
 DecisionNode decision_nodes[] = {
@@ -125,7 +157,7 @@ DecisionNode decision_nodes[] = {
 };
 
 
-void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z_data[DATA_LENGTH], uint8_t data[3 * DATA_LENGTH]) {
+void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z_data[DATA_LENGTH], int16_t data[3 * DATA_LENGTH]) {
 
     // Separate the data into x, y, z components and convert to float
     for (size_t i = 0, j = 0; i < 3 * DATA_LENGTH; i += 3, j++) {
@@ -136,10 +168,8 @@ void separate_axes(float x_data[DATA_LENGTH], float y_data[DATA_LENGTH], float z
 }
 
 
-
-
 float calculate_mean(float* data, size_t length) {
-    float sum = 10.0;
+    float sum = 0;
     for (size_t i = 0; i < length; ++i) {
         sum += data[i];
     }
@@ -326,7 +356,7 @@ AccFeatures calculate_features(float* x_data, float* y_data, float* z_data, size
 
 
 
-int process_classifier(const uint8_t* data) {
+int process_classifier(const int16_t* data) {
     int decision = -1;
     // Ensure arrays are the correct size
     float x_data[DATA_LENGTH], y_data[DATA_LENGTH], z_data[DATA_LENGTH];
@@ -390,6 +420,7 @@ int evaluate_decision(const AccFeatures* features) {
     while (true) {
         const DecisionNode* node = &decision_nodes[current_node];
         if (node->decision != -1) {
+            //NRF_LOG_INFO("SISTA %d", current_node);
             return node->decision; // Return the decision if it's a leaf node
         }
 
@@ -406,20 +437,5 @@ int evaluate_decision(const AccFeatures* features) {
     return -1; // Should not be reached; indicates an error
 }
 
-int classify_movement(const uint8_t* data, uint16_t size) {
-    // Implement classification logic here
-    // Return an integer or enum that represents the classification
-    int classification_result = -1;
-    float x_data[DATA_LENGTH], y_data[DATA_LENGTH], z_data[DATA_LENGTH];
-
-    // Assuming data is already in a simple packed format: [x0, y0, z0, x1, y1, z1, ..., xn, yn, zn]
-    // Call separate_axes to parse and convert the data
-    separate_axes(x_data, y_data, z_data, data);
-
-
-
-
-    return classification_result;
-}
 
 

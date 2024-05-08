@@ -278,9 +278,10 @@ static uint8_t buffer[BUFFER_SIZE * BUFFER_SLOTS];
 static int buffer_slots = 0;
 
 static void update_acc() {
-
-    //NRF_LOG_INFO("????");
+//m_acc_stream = true;
     if (!m_fifo_full || !m_acc_stream) {
+            //NRF_LOG_INFO("Exiting update_acc early: m_fifo_full=%d, m_acc_stream=%d", m_fifo_full, m_acc_stream);
+
         return;
     }
     m_fifo_full = false;
@@ -308,6 +309,8 @@ static void update_acc() {
 
         // Handle the classification (optional, depending on your needs)
         // For example, append it to the data or handle differently based on the result
+        memcpy(comp, &classification, sizeof(int));
+
 
         if (!m_acc_ready) {
             NRF_LOG_INFO("BLE add buffer, slots %d", buffer_slots);
@@ -322,7 +325,10 @@ static void update_acc() {
             return;
         }
         m_acc_ready = false;
-        err_code = ble_seer_tag_update(&m_seer_tag, comp, out_size, m_conn_handle);
+        //err_code = ble_seer_tag_update(&m_seer_tag, comp, out_size, m_conn_handle);
+        err_code = ble_seer_tag_update(&m_seer_tag, comp, out_size + sizeof(int), m_conn_handle);
+
+
         APP_ERROR_CHECK(err_code);
     }
 }
@@ -579,6 +585,8 @@ static void seer_tag_data_handler(ble_seer_tag_evt_t * p_evt)
         m_lis_value = *(uint32_t*)p_evt->params.data.p_data;
     }
 
+    NRF_LOG_INFO("Received BLE event: %d", p_evt->type);
+
     switch (p_evt->type) {
     case BLE_SEER_TAG_EVT_ODR_AVG:
         m_avg = m_lis_value;
@@ -761,10 +769,15 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             {
                 .rx_phys = BLE_GAP_PHY_AUTO,
                 .tx_phys = BLE_GAP_PHY_AUTO,
-            };
+           }; 
+            //ble_gap_phys_t phys = {BLE_GAP_PHY_1MBPS, BLE_GAP_PHY_1MBPS}; // Example to set both RX and TX PHY to 1Mbps
+
             err_code = sd_ble_gap_phy_update(p_ble_evt->evt.gap_evt.conn_handle, &phys);
-            APP_ERROR_CHECK(err_code);
+            if (err_code != NRF_SUCCESS) {
+                NRF_LOG_ERROR("PHY update request failed: %d", err_code);
+            }
         } break;
+
 
         case BLE_GATTS_EVT_SYS_ATTR_MISSING:
             // No system attributes have been stored.
@@ -830,6 +843,8 @@ static void ble_stack_init(void)
 
     // Register a handler for BLE events.
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
+    //NRF_SDH_BLE_OBSERVER(my_ble_observer, APP_BLE_OBSERVER_PRIO, ble_seer_tag_on_ble_evt, &m_seer_tag);
+
 }
 
 
